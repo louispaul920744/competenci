@@ -32,14 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.kCulturedWhite,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/app_logo.png',
+            'assets/images/logo.png',
             width: screenWidth * 0.6,
           ),
           const SizedBox(

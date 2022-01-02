@@ -6,10 +6,12 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   final String mobileNumber;
+  final String countryCode;
 
   const OTPVerificationScreen({
     Key? key,
     required this.mobileNumber,
+    required this.countryCode,
   }) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   String enteredOTP = '';
+  FocusNode otpFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +51,11 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               const SizedBox(
                 height: 16.0,
               ),
-              Row(
+              Flex(
+                direction: Axis.horizontal,
                 children: [
                   Text(
-                    widget.mobileNumber,
+                    "${widget.countryCode} ${widget.mobileNumber}",
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   IconButton(
@@ -68,9 +72,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 16.0,
+              ),
               PinCodeTextField(
                 appContext: context,
-                length: 6,
+                length: 4,
+                focusNode: otpFocusNode,
                 onChanged: (val) {
                   setState(() {
                     enteredOTP = val;
@@ -82,13 +90,44 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   borderRadius: BorderRadius.circular(24.0),
                 ),
               ),
+              const SizedBox(
+                height: 16.0,
+              ),
               Center(
                 child: MaterialButton(
                   onPressed: () {
-                    if (enteredOTP == '123456') {
+                    if (enteredOTP.length != 4) {
+                      otpFocusNode.unfocus();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Please enter 4-Digit OTP",
+                            style: Theme.of(context).textTheme.button?.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ),
+                      );
+                    }
+                    if (enteredOTP == '1234') {
+                      otpFocusNode.unfocus();
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => const ChooseAccountScreen(),
+                        ),
+                      );
+                    } else {
+                      otpFocusNode.unfocus();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Wrong OTP, try again!",
+                            style: Theme.of(context).textTheme.button?.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
                         ),
                       );
                     }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:competenci/configs/app_constants.dart';
 import 'package:competenci/views/screens/login_screen/login_screen.dart';
 import 'package:competenci/views/screens/onboarding_screen/pages/onboard_pages.dart';
@@ -20,14 +18,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       key: onboardKey,
-      globalBackgroundColor: AppColors.kCulturedWhite,
+      globalBackgroundColor: Theme.of(context).primaryColor,
       pages: onboardPages,
       showSkipButton: false,
       showDoneButton: true,
       showNextButton: true,
       next: Text(
         'Next',
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.button?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
       ),
       done: MaterialButton(
         onPressed: () => Navigator.of(context).push(
@@ -37,8 +38,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ),
         color: AppColors.kDarkRed,
         textColor: Colors.white,
-        child: const Text(
+        child: Text(
           "Continue",
+          style: Theme.of(context).textTheme.button?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
       onDone: () {},
